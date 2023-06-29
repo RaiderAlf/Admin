@@ -1,7 +1,7 @@
 //DEPENDENCIES
 const jwt = require('jsonwebtoken');
 //SERVICES
-const { usuariosDB, loginDB, tareasDB, registryUsersDB, aggTaskDB } = require('../services/index');
+const { usuariosDB, loginDB, tareasDB, registryUsersDB, aggTaskDB, updateTask } = require('../services/index');
 
 //GETS------------------------------------------------
 const getUsersDB = async (req, res) => {
@@ -105,11 +105,30 @@ const aggTask = async (req, res) => {
     });
 };
 
+const updateComplete = async (req, res) => {
+    const { id } = req.params;
+    const { idTarea } = req.body;
+
+    try {
+        const response = await updateTask(id, idTarea)
+        res.status(200).send({
+            Message : 'Tarea actualizada con exito',
+            data: response
+        })
+    } catch (error) {
+        res.status(400).send({
+            Error : 'ERROR',
+            Message : error.message
+        });
+    };
+};
+
 
 module.exports = {
     getUsersDB,
     loginUser,
     getTasksDB,
     registryUser,
-    aggTask
+    aggTask,
+    updateComplete
 };

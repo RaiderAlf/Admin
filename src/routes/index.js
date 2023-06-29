@@ -2,7 +2,7 @@
 const { Router } = require('express');
 const router = Router();
 //CONTROLLERS
-const { getUsersDB, loginUser, registryUser, getTasksDB, aggTask } = require('../controllers/index');
+const { getUsersDB, loginUser, registryUser, getTasksDB, aggTask, updateComplete } = require('../controllers/index');
 //MIDDLEWARE
 const { userTokenPass } = require('../middleware/index');
 
@@ -15,5 +15,8 @@ router.get('/login', loginUser);
 //POSTS ---------------------------------
 router.post('/registry', registryUser);
 router.post('/:id', userTokenPass(), aggTask)
+
+//PUT--------------------------
+router.put('/:id', userTokenPass(), updateComplete )
 
 module.exports = router;

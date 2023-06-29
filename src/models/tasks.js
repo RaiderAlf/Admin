@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize')
 
 module.exports = (database) =>{
     database.define( "Tarea", {
-        id_tarea:{
+        id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
