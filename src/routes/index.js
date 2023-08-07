@@ -7,7 +7,7 @@ const { getUsersDB, loginUser, registryUser, getTasksDB, aggTask, updateComplete
 const { userTokenPass } = require('../middleware/index');
 
 //GETS-----------------------------------
-router.get('/admin', userTokenPass(), getUsersDB);
+router.get('/admin', /* userTokenPass() */ getUsersDB);
 router.get('/:id',  userTokenPass(), getTasksDB);
 router.get('/login', loginUser);
 

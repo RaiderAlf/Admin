@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Título dinámico próximamente...</title>
+</head>
+<body>
+    <p>
+        {{titulo}}
+    </p>
+
+    {{#each informacion}}
+        <h3>{{this.nombre_usuario}}</h3>
+        <ul class="people_list">
+            <li>{{this.email}}</li>
+            <li>{{this.password}}</li>
+        </ul>
+    {{/each}}
+    <p>{{informacion}}</p>
+</body>
+</html>

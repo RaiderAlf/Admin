@@ -8,12 +8,17 @@ const { Tarea, Usuario } = require('../db');
 
 //--------------------------------------------------------------
 
+const sanitizeRes = async (data) => {
+    const parse = JSON.stringify(data)
+    return JSON.parse(parse)
+}
+
 const usuariosDB = async () => {
     const users = await Usuario.findAll({where: { deleted: false }, attributes: ["id", "nombre_usuario", "email", "password", "token"]});
     if(!users[0]){
         throw new Error('Ningun usuario registrado');
     };
-    return users;
+    return sanitizeRes(users);
 };
 
 const tareasDB = async (id) => {

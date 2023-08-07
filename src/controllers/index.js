@@ -6,10 +6,17 @@ const { usuariosDB, loginDB, tareasDB, registryUsersDB, aggTaskDB, updateTask } 
 //GETS------------------------------------------------
 const getUsersDB = async (req, res) => {
     try {
-        res.send({
-            Message: 'Todos Usuarios',
-            data: await usuariosDB()
-        });
+        const resDB = await usuariosDB()
+        console.log(resDB)
+        res.render('index', {
+            titulo: 'Todos los usuarios',
+            informacion : resDB
+            
+        })
+        // res.send({
+        //     Message: 'Todos Usuarios',
+        //     data: await usuariosDB()
+        // });
     } catch (error) {
         res.status(404).send({
             Error : 'ERROR',
