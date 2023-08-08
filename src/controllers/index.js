@@ -4,26 +4,46 @@ const jwt = require('jsonwebtoken');
 const { usuariosDB, loginDB, tareasDB, registryUsersDB, aggTaskDB, updateTask } = require('../services/index');
 
 //GETS------------------------------------------------
+
+const login = (req, res) => {
+    res.render('index')
+}
+
 const getUsersDB = async (req, res) => {
     try {
         const resDB = await usuariosDB()
-        console.log(resDB)
-        res.render('index', {
+        res.render('users', {
             titulo: 'Todos los usuarios',
-            informacion : resDB
+            message : resDB
             
         })
-        // res.send({
-        //     Message: 'Todos Usuarios',
-        //     data: await usuariosDB()
-        // });
     } catch (error) {
-        res.status(404).send({
-            Error : 'ERROR',
-            Message: error.message
+        res.render('error',{
+            titulo : 'ERROR',
+            message: error.message
         });
     };
 };
+
+const getTasksDB = async (req, res) => {
+    const { id } = req.params;
+    try {
+            const tasks = await tareasDB(id);
+            res.status(200).send({
+                Message: 'Tareas de usuario ' + id,
+                data: tasks
+            });
+        } catch (error) {
+            res.status(400).send({
+                Error: 'No ha iniciado sesion',
+                message: error.message
+            });
+        };
+        return;
+    };
+
+    
+//POSTS-------------------------------------------
 
 const loginUser = async (req, res) => {
     const {email, password} = req.body
@@ -42,24 +62,6 @@ const loginUser = async (req, res) => {
     };
 };
 
-const getTasksDB = async (req, res) => {
-        const { id } = req.params;
-        try {
-            const tasks = await tareasDB(id);
-            res.status(200).send({
-                Message: 'Tareas de usuario ' + id,
-                data: tasks
-            });
-        } catch (error) {
-            res.status(400).send({
-                Error: 'No ha iniciado sesion',
-                message: error.message
-            });
-        };
-        return;
-    };
-
-//POSTS-------------------------------------------
 const registryUser = async (req, res) => {
     if(req.body.usuario && req.body.email && req.body.password){
         const { usuario, email, password } = req.body;
@@ -132,6 +134,7 @@ const updateComplete = async (req, res) => {
 
 
 module.exports = {
+    login,
     getUsersDB,
     loginUser,
     getTasksDB,

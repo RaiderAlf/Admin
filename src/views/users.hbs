@@ -1,0 +1,29 @@
+{{> header}}
+<div>
+    <p>
+        {{titulo}}
+    </p>
+    {{#if message}}
+        <table class="table table-striped table-hover table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre de Usuario</th>
+                <th>Correo</th>
+                <th>Password</th>
+            </tr>
+
+
+            {{#each message}}
+                <tr class="people_list">
+                    <td >{{this.id}}</td>
+                    <td>{{this.nombre_usuario}}</td>
+                    <td>{{this.email}}</td>
+                    <td>{{this.password}}</td>
+                </tr>
+            {{/each}}
+        </table>
+    {{else}}
+        <p>Ningun usuario registrado</p>
+    {{/if}}
+</div>
+{{>footer}}
