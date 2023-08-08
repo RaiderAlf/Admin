@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { Op } = require('sequelize');
 const bcrypt = require('bcrypt');
 //MODELS
-const { Tarea, Usuario } = require('../db');
+const { Ventas, Empleados } = require('../db');
 
 //--------------------------------------------------------------
 
@@ -14,15 +14,15 @@ const sanitizeRes = async (data) => {
 }
 
 const usuariosDB = async () => {
-    const users = await Usuario.findAll({where: { deleted: false }, attributes: ["id", "nombre_usuario", "email", "password", "token"]});
+    const users = await Empleados.findAll({where: { deleted: false }, attributes: ["id", "nombre_usuario", "email", "password", "token"]});
     if(!users[0]){
-        throw new Error('Ningun usuario registrado');
+        throw new Error('Ningun empleado registrado');
     };
     return sanitizeRes(users);
 };
 
 const tareasDB = async (id) => {
-    const tasks = await Tarea.findAll({where: { UsuarioId: id, deleted: false }, attributes: ["id", "titulo", "descripcion", "completada"]});
+    const tasks = await Ventas.findAll({where: { UsuarioId: id, deleted: false }, attributes: ["id", "titulo", "descripcion", "completada"]});
     if(!tasks[0]){
         throw new Error('No hay tareas creadas');
     };
@@ -31,7 +31,7 @@ const tareasDB = async (id) => {
 
 const loginDB = async (email, password) => {
     if(email){
-        const userDB = await Usuario.findOne({where: { email: email, deleted: false}, attributes: ["id", "nombre_usuario", "email", "password"]});
+        const userDB = await Empleados.findOne({where: { email: email, deleted: false}, attributes: ["id", "nombre_usuario", "email", "password"]});
 
         if(userDB !== null){
             const user = userDB.toJSON()
@@ -69,11 +69,11 @@ const registryUsersDB = async (usuario, email, password) => {
 };
 
 const aggTaskDB = async (titulo, descripcion, id) => {
-   return await Tarea.create({titulo, descripcion, UsuarioId : id });
+   return await Ventas.create({titulo, descripcion, UsuarioId : id });
 };
 
 const updateTask = async (idUsuario, idTarea) => {
-    return await Tarea.update({completada: true}, {where: {UsuarioId: idUsuario, id: idTarea}} )
+    return await Ventas.update({completada: true}, {where: {UsuarioId: idUsuario, id: idTarea}} )
 }
 
 module.exports = { usuariosDB, tareasDB, loginDB, registryUsersDB, aggTaskDB, updateTask };

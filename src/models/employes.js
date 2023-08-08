@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = (database) =>{
-    database.define( "Usuario", {
+    database.define( "Empleados", {
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
@@ -16,6 +16,20 @@ module.exports = (database) =>{
             type: DataTypes.STRING,
             allowNull: false,
             unique: true
+        },
+        ci:{
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        numberTlf:{
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        adminRole:{
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         },
         password:{
             type: DataTypes.STRING,

@@ -23,7 +23,7 @@ const server = require('./src/app.js');
 const { database } = require('./src/db');
 
 // SYNC MODELS
-database.sync({ alter : true })
+database.sync({ force: false })
     .then(() => {
         server.listen(3001, () => {
             console.log('Listening at' + ' ' + 3001)
