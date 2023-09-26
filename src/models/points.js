@@ -1,19 +1,24 @@
 const { DataTypes } = require('sequelize')
 
 module.exports = (database) =>{
-    database.define( "Ventas", {
+    database.define( "Puntos", {
         id:{
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true,
         },
-        titulo:{
+        monto:{
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },
-        descripcion:{
-            type: DataTypes.TEXT,
-            allowNull: false,
+        fecha: {
+            type: DataTypes.DATE,
+            get() {
+              return new Date(this.getDataValue('fecha'));
+            },
+            set(fecha) {
+              this.setDataValue('fecha', fecha.toISOString().split('T')[0]);
+            }
         },
         completada:{
             type: DataTypes.BOOLEAN,
