@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 //SERVICES
 const { getDB, addDB } = require('../services/index');
 //MODELS
-const { Puntos, Usuario } = require('../db');
+const { Usuario } = require('../db');
+
 
 //GETS-------------------------
 const getUsersDB = async (req, res) => {
