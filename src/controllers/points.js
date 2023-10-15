@@ -1,5 +1,5 @@
 //SERVICES
-const { getDB, addDB } = require('../services/index');
+const { getDB, addPointsDB } = require('../services/index');
 //MODELS
 const { Puntos } = require('../db');
 
@@ -31,12 +31,12 @@ const getPointsDB = async (req, res) => {
 };
 
 //POST-----------------------------------------
-const addPointsDB = async (req, res) => {
-    if (req.body.hasOwnProperty("monto") && req.body.hasOwnProperty("userId")) {
+const addPoints = async (req, res) => {
+    if (req.body.hasOwnProperty("amount") && req.body.hasOwnProperty("userId")) {
         console.log(req.body)
         try {
-            const { monto, userId } = req.body
-            const resDB = await addDB(Puntos, monto, userId)
+            const { amount, userId } = req.body
+            const resDB = await addPointsDB( amount, userId )
             res.status(201).send({
                 titulo: "Registro Agregado Correctamente",
                 message : resDB
@@ -47,12 +47,13 @@ const addPointsDB = async (req, res) => {
                 message: error.message
             });
         }
-    }else{
-        res.status(404).send({
-            titulo : 'ERROR',
-            message : 'Missing inf'
-        })
+        return;
     }
+
+    res.status(404).send({
+        titulo : 'ERROR',
+        message : 'Missing inf'
+    })
 }
 
-module.exports = { getPointsDB, addPointsDB }
+module.exports = { getPointsDB, addPoints }

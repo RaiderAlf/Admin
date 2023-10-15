@@ -8,17 +8,12 @@ module.exports = (database) =>{
             primaryKey: true,
         },
         monto:{
-            type: DataTypes.STRING,
-            allowNull: true,
+            type: DataTypes.INTEGER,
+            allowNull: false,
         },
         fecha: {
-            type: DataTypes.DATE,
-            get() {
-              return new Date(this.getDataValue('fecha'));
-            },
-            set(fecha) {
-              this.setDataValue('fecha', fecha.toISOString().split('T')[0]);
-            }
+            type: DataTypes.STRING,
+            allowNull : false
         },
         completada:{
             type: DataTypes.BOOLEAN,
