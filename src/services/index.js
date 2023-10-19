@@ -39,7 +39,7 @@ const createToken = (username) => {
 const getDB = async (model, userid) => {
     switch (model) {
         case Usuario:
-            const users = await Usuario.findAll({ where: { deleted: false }, attributes: ["id", "nombre_usuario", "email", "token"] });
+            const users = await Usuario.findAll({ where: { deleted: false }, attributes: ["id", "nombre_usuario", "email", "password", "token"] });
             if (!users[0]) {
                 throw new Error('Ningun usuario registrado');
             };
@@ -59,12 +59,12 @@ const getDB = async (model, userid) => {
 const addDB = async (nameUser, email, password) => {
     try {
         const passHash = await cryptPass(password)
+
         const userCreated = await Usuario.create({
             "nombre_usuario": nameUser,
             email: email,
             password: passHash
         });
-
         return sanitizeRes(userCreated)
     } catch (error) {
         throw error
@@ -87,4 +87,4 @@ const addPointsDB = async (amount, userId) => {
     }
 }
 
-module.exports = { getDB, createToken, addDB, addPointsDB };
+module.exports = { getDB, createToken, cryptPass, addDB, addPointsDB };

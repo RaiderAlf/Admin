@@ -1,5 +1,6 @@
 //DEPENDENCIES
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 //SERVICES
 const { getDB, createToken, addDB } = require('../services/index');
 //MODELS
@@ -24,11 +25,44 @@ const getUsersDB = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-    try {
-        const test = req.body.test
 
-        const token = createToken({ username: req.body.nameUser });
-        res.json(token);
+    try {
+
+        const { nameUser, pass } = req.body
+        const users = await getDB(Usuario)
+
+        for (let i = 0; i < users.length; i++) {
+            if (users[i]["nombre_usuario"] === nameUser) {
+
+                bcrypt.compare(pass, users[i]["password"], function (err, pas) {
+                    if (pas) {
+
+                        const token = createToken({ username: nameUser });
+                        res.json({
+                            message: "Usuario Encontrado",
+                            data: token
+                        })
+                        return;
+
+                    } else {
+
+                        res.status(400).send({
+                            ERROR: "Error de contraseña",
+                            message: "Contraseña Invalida"
+                        });
+                        return;
+
+                    }
+
+                });
+                return
+            }
+        }
+
+        res.status(404).send({
+            ERROR: "Error",
+            message: "Usuario no encontrado"
+        });
 
     } catch (error) {
         res.status(404).send({
@@ -48,7 +82,7 @@ const addUsersDB = async (req, res) => {
             const resDB = await addDB(nameUser, email, password)
 
             const token = createToken({ username: req.body.nameUser });
-            res.json(token);
+            res.json(resDB);
 
         } catch (error) {
             res.status(409).send({

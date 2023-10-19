@@ -8,8 +8,8 @@ const { getPointsDB, addPoints } = require("../controllers/points")
 const { userTokenPass } = require('../middleware/index');
 
 //USERS-----------------------------------
-router.get('/', getUsersDB)
-router.get('/test', loginUser)
+router.get('/admin', getUsersDB)
+router.get('/', loginUser)
 router.post('/', addUsersDB)
 
 //POINTS
