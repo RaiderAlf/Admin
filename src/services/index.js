@@ -24,7 +24,7 @@ const cryptPass = async (pass, saltRounds = 10) => {
 }
 
 const createToken = (username) => {
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '86400s' });
 }
 
 // bcrypt.compare(guess, stored_hash, function (err, res) {

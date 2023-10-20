@@ -8,10 +8,10 @@ const router = require('./routes/index')
 const server = express();
 
 //SERVER
-server.use(bodyParser.json());
-server.use(morgan('dev'));
 server.use(cors());
-server.use(express.urlencoded({extended : true}))
+server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ extended: true }))
+server.use(morgan('dev'));
 server.use('/', router)
 
 module.exports = server;

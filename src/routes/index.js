@@ -9,11 +9,11 @@ const { userTokenPass } = require('../middleware/index');
 
 //USERS-----------------------------------
 router.get('/admin', getUsersDB)
-router.get('/', loginUser)
-router.post('/', addUsersDB)
+router.post('/', loginUser)
+router.post('/signin', addUsersDB)
 
 //POINTS
-router.get('/points', getPointsDB)
+router.get('/points', userTokenPass(), getPointsDB)
 router.post('/points', addPoints)
 
 module.exports = router;
