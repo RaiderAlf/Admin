@@ -1,5 +1,5 @@
 //SERVICES
-const { getDB, addPointsDB } = require('../services/index');
+const { getDB, addPointsDB, deleteDB } = require('../services/index');
 //MODELS
 const { Puntos } = require('../db');
 
@@ -33,7 +33,6 @@ const getPointsDB = async (req, res) => {
 //POST-----------------------------------------
 const addPoints = async (req, res) => {
     if (req.body.hasOwnProperty("amount") && req.body.hasOwnProperty("userId")) {
-        console.log(req.body)
         try {
             const { amount, userId } = req.body
             const resDB = await addPointsDB(amount, userId)
@@ -56,4 +55,22 @@ const addPoints = async (req, res) => {
     })
 }
 
-module.exports = { getPointsDB, addPoints }
+//DELETE-----------------------------------------
+const deletePoints = async (req, res) => {
+    if (req.body.hasOwnProperty('id')) {
+        const { id } = req.body
+        const delDB = await deleteDB(id)
+        res.status(200).send({
+            titulo: "registro",
+            message: delDB(Puntos, id)
+        })
+        return
+    }
+
+    res.status(404).send({
+        titulo: "ERROR",
+        ERROR: "Missing ID"
+    })
+}
+
+module.exports = { getPointsDB, addPoints, deletePoints }

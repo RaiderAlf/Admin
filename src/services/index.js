@@ -27,15 +27,6 @@ const createToken = (username) => {
     return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '86400s' });
 }
 
-// bcrypt.compare(guess, stored_hash, function (err, res) {
-//     if (res) {
-//         // Las contraseñas coinciden
-//     } else {
-//         // Las contraseñas no coinciden
-//     }
-// });
-
-
 const getDB = async (model, userid) => {
     switch (model) {
         case Usuario:
@@ -51,8 +42,6 @@ const getDB = async (model, userid) => {
                 throw new Error('No tiene registros');
             };
             return sanitizeRes(points);
-        default:
-            break;
     }
 };
 
@@ -87,4 +76,26 @@ const addPointsDB = async (amount, userId) => {
     }
 }
 
-module.exports = { getDB, createToken, cryptPass, addDB, addPointsDB };
+const deleteDB = async (model, id) => {
+    try {
+        switch (model) {
+            case Usuario:
+                const findUser = await Usuario.findOne({ where: { id } });
+
+                if (!findUser) throw new Error(`No se encontró ningún registro con el id ${id}`);
+
+                return await Usuario.update({ deleted: true }, { where: { id: id } })
+
+            case Puntos:
+                const findPuntos = await Puntos.findPuntosOne({ where: { id } });
+
+                if (!findPuntos) throw new Error(`No se encontró ningún registro con el id ${id}`);
+
+                return await Puntos.update({ deleted: true }, { where: { id: id } })
+        }
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = { getDB, createToken, cryptPass, addDB, addPointsDB, deleteDB };
